@@ -34,8 +34,10 @@ public class MainActivity extends AppCompatActivity
             {
                 case GALLERY_REQUEST_CODE:
                     //intent.getData returns the content URI for the selected Image
-                    Uri uri = intent.getData();
-                    viewImage(uri);
+                    //Uri uri = intent.getData();
+                    //viewImage(uri);
+
+
                     break;
             }
     }
@@ -66,8 +68,8 @@ public class MainActivity extends AppCompatActivity
         //We pass an extra array with the accepted mime types. This will ensure only components with these MIME types as targeted.
         String[] mimeTypes = {"image/jpeg", "image/png"};
         intent.putExtra(Intent.EXTRA_MIME_TYPES,mimeTypes);
-        // Launching the Intent
-        startActivityForResult(intent,GALLERY_REQUEST_CODE);
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true);
+        startActivityForResult(Intent.createChooser(intent,"Select Pictures"),GALLERY_REQUEST_CODE);
     }
     private void viewImage(Uri uri)
     {
