@@ -34,10 +34,9 @@ public class MainActivity extends AppCompatActivity
             {
                 case GALLERY_REQUEST_CODE:
                     //intent.getData returns the content URI for the selected Image
-                    //Uri uri = intent.getData();
-                    //viewImage(uri);
-
-
+                    Uri uri = intent.getData();
+                    //viewImage1(uri);
+                    viewImage2(uri);
                     break;
             }
     }
@@ -71,13 +70,14 @@ public class MainActivity extends AppCompatActivity
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true);
         startActivityForResult(Intent.createChooser(intent,"Select Pictures"),GALLERY_REQUEST_CODE);
     }
-    private void viewImage(Uri uri)
+    private void viewImage1(Uri uri)
     {
         ImageView imageview = findViewById(R.id.imageview);
-
-        //imageview.setImageURI(uri);
+        imageview.setImageURI(uri);
         Log.e("Content URI", String.valueOf(uri));
-
+    }
+    private void viewImage2(Uri uri)
+    {
         String[] filePathColumn = { MediaStore.Images.Media.DATA };
         // Get the cursor
         Cursor cursor = getContentResolver().query(uri, filePathColumn, null, null, null);
@@ -90,6 +90,7 @@ public class MainActivity extends AppCompatActivity
         String imgDecodableString = cursor.getString(columnIndex);
         cursor.close();
         // Set the Image in ImageView after decoding the String
+        ImageView imageview = findViewById(R.id.imageview);
         imageview.setImageBitmap(BitmapFactory.decodeFile(imgDecodableString));
     }
 }
