@@ -2,20 +2,38 @@ package htin.linnzaw.pickgalleryimage;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 public class MainActivity extends AppCompatActivity
 {
-    int GALLERY_REQUEST_CODE = 0;
+    final int GALLERY_REQUEST_CODE = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initialize();
+    }
+
+    public void onActivityResult(int requestCode,int resultCode,Intent intent)
+    {
+        // Result code is RESULT_OK only if the user selects an Image
+        if (resultCode == Activity.RESULT_OK)
+            switch (requestCode)
+            {
+                case GALLERY_REQUEST_CODE:
+                    //intent.getData returns the content URI for the selected Image
+                    Uri uri = intent.getData();
+                    viewImage(uri);
+                    break;
+            }
     }
     void initialize()
     {
@@ -46,5 +64,10 @@ public class MainActivity extends AppCompatActivity
         intent.putExtra(Intent.EXTRA_MIME_TYPES,mimeTypes);
         // Launching the Intent
         startActivityForResult(intent,GALLERY_REQUEST_CODE);
+    }
+    private void viewImage(Uri uri)
+    {
+        ImageView imageview = findViewById(R.id.imageview);
+        imageview.setImageURI(uri);
     }
 }
