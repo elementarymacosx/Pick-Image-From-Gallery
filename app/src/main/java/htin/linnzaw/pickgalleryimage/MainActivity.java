@@ -3,6 +3,7 @@ package htin.linnzaw.pickgalleryimage;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.app.SearchManager;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
@@ -13,6 +14,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+
+import static android.content.Intent.CATEGORY_BROWSABLE;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -43,7 +46,8 @@ public class MainActivity extends AppCompatActivity
     void initialize()
     {
         button1Task();
-
+        button2Task();
+        button3Task();
     }
     void button1Task()
     {
@@ -56,6 +60,30 @@ public class MainActivity extends AppCompatActivity
                 pickFromGallery();
             }
         });
+    }
+    void button2Task()
+    {
+        Button button = findViewById(R.id.button2);
+        button.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                variousIntentAction();
+            }
+        });
+    }
+    void button3Task()
+    {
+        Button button = findViewById(R.id.button3);
+        button.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                variousIntentAction();
+            }
+        });
 
     }
     private void pickFromGallery()
@@ -65,6 +93,11 @@ public class MainActivity extends AppCompatActivity
         // Sets the type as image/*. This ensures only components of type image are selected
         intent.setType("image/*");
         //We pass an extra array with the accepted mime types. This will ensure only components with these MIME types as targeted.
+
+        //Uri uri = Uri.fromFile(file);
+        //intent.setDataAndType(uri, "image/*");
+
+
         String[] mimeTypes = {"image/jpeg", "image/png"};
         intent.putExtra(Intent.EXTRA_MIME_TYPES,mimeTypes);
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true);
@@ -92,5 +125,25 @@ public class MainActivity extends AppCompatActivity
         // Set the Image in ImageView after decoding the String
         ImageView imageview = findViewById(R.id.imageview);
         imageview.setImageBitmap(BitmapFactory.decodeFile(imgDecodableString));
+    }
+    private void variousIntentAction()
+    {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_PICK_ACTIVITY);
+        //intent.putExtra(SearchManager.QUERY,"text_to_search");
+        startActivity(intent);
+    }
+    private void variousIntentCategory()
+    {
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://developer.android.com/reference/android/content/Intent"));
+        intent.addCategory(CATEGORY_BROWSABLE);
+        startActivity(intent);
+    }
+    private void variousIntentFlag()
+    {
+        Intent intent = new Intent(Intent.ACTION_WEB_SEARCH);
+        intent.putExtra(SearchManager.QUERY, "text_to_search");
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 }

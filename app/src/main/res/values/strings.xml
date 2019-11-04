@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Pick Gallery Image</string>
     <string name="pick">Pick Image From Gallery</string>
+    <string name="intent">Intent</string>
 </resources>
